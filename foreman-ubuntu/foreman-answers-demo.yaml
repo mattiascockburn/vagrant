@@ -1,0 +1,326 @@
+--- 
+  foreman: 
+    foreman_url: "https://foreman-deb.test.int"
+    unattended: true
+    authentication: true
+    passenger: true
+    passenger_ruby: 
+    passenger_ruby_package: 
+    use_vhost: true
+    servername: foreman-deb.test.int
+    ssl: true
+    custom_repo: true
+    repo: stable
+    configure_epel_repo: false
+    configure_scl_repo: false
+    configure_brightbox_repo: false
+    selinux: 
+    gpgcheck: true
+    version: present
+    db_manage: true
+    db_type: postgresql
+    db_adapter: 
+    db_host: 
+    db_port: 
+    db_database: 
+    db_username: foreman
+    db_password: tqc3Er42DfC4i6XEXJFpNC7eaRwijW88
+    db_sslmode: 
+    db_pool: 5
+    apipie_task: "apipie:cache:index"
+    app_root: /usr/share/foreman
+    manage_user: true
+    user: foreman
+    group: foreman
+    user_groups: 
+      - puppet
+    environment: production
+    puppet_home: /var/lib/puppet
+    locations_enabled: false
+    organizations_enabled: false
+    passenger_interface: 
+    server_ssl_ca: /var/lib/puppet/ssl/certs/ca.pem
+    server_ssl_chain: /var/lib/puppet/ssl/certs/ca.pem
+    server_ssl_cert: /var/lib/puppet/ssl/certs/foreman-deb.test.int.pem
+    server_ssl_key: /var/lib/puppet/ssl/private_keys/foreman-deb.test.int.pem
+    server_ssl_crl: /var/lib/puppet/ssl/ca/ca_crl.pem
+    oauth_active: true
+    oauth_map_users: false
+    oauth_consumer_key: zZWRk26W8Ygh835qnzLrL2H6MSymqBKT
+    oauth_consumer_secret: eF42hMRTnTGfSXRsrjbxyiVyKx7gBjYG
+    passenger_prestart: true
+    passenger_min_instances: "1"
+    passenger_start_timeout: "600"
+    admin_username: admin
+    admin_password: nKmqwV6n2UdhSTfx
+    admin_first_name: 
+    admin_last_name: 
+    admin_email: 
+    initial_organization: 
+    initial_location: 
+    ipa_authentication: false
+    http_keytab: /etc/httpd/conf/http.keytab
+    pam_service: foreman
+    configure_ipa_repo: false
+    ipa_manage_sssd: true
+    websockets_encrypt: true
+    websockets_ssl_key: /var/lib/puppet/ssl/private_keys/foreman-deb.test.int.pem
+    websockets_ssl_cert: /var/lib/puppet/ssl/certs/foreman-deb.test.int.pem
+  foreman_proxy: 
+    repo: stable
+    gpgcheck: true
+    custom_repo: true
+    version: present
+    plugin_version: installed
+    port: 
+    http_port: 8000
+    ssl_port: 8443
+    dir: /usr/share/foreman-proxy
+    user: foreman-proxy
+    log: /var/log/foreman-proxy/proxy.log
+    log_level: ERROR
+    http: false
+    ssl: true
+    ssl_ca: /var/lib/puppet/ssl/certs/ca.pem
+    ssl_cert: /var/lib/puppet/ssl/certs/foreman-deb.test.int.pem
+    ssl_key: /var/lib/puppet/ssl/private_keys/foreman-deb.test.int.pem
+    foreman_ssl_ca: 
+    foreman_ssl_cert: 
+    foreman_ssl_key: 
+    trusted_hosts: 
+      - foreman-deb.test.int
+    manage_sudoersd: true
+    use_sudoersd: true
+    puppetca: true
+    puppetca_listen_on: https
+    ssldir: /var/lib/puppet/ssl
+    puppetdir: /etc/puppet
+    autosign_location: /etc/puppet/autosign.conf
+    puppetca_cmd: "/usr/bin/puppet cert"
+    puppet_group: puppet
+    puppetrun: true
+    puppetrun_listen_on: https
+    puppetrun_cmd: "/usr/bin/puppet kick"
+    puppetrun_provider: 
+    customrun_cmd: /bin/false
+    customrun_args: "-ay -f -s"
+    puppetssh_sudo: false
+    puppetssh_command: "/usr/bin/puppet agent --onetime --no-usecacheonfailure"
+    puppetssh_user: root
+    puppetssh_keyfile: /etc/foreman-proxy/id_rsa
+    puppetssh_wait: false
+    puppet_user: root
+    puppet_url: "https://foreman-deb.test.int:8140"
+    puppet_ssl_ca: /var/lib/puppet/ssl/certs/ca.pem
+    puppet_ssl_cert: /var/lib/puppet/ssl/certs/foreman-deb.test.int.pem
+    puppet_ssl_key: /var/lib/puppet/ssl/private_keys/foreman-deb.test.int.pem
+    puppet_use_environment_api: 
+    templates: false
+    templates_listen_on: both
+    template_url: "http://foreman-deb.test.int:8000"
+    tftp: true
+    tftp_listen_on: https
+    tftp_syslinux_root: 
+    tftp_syslinux_files: 
+    tftp_syslinux_filenames: 
+      - /usr/lib/syslinux/chain.c32
+      - /usr/lib/syslinux/menu.c32
+      - /usr/lib/syslinux/memdisk
+      - /usr/lib/syslinux/pxelinux.0
+    tftp_root: /var/lib/tftpboot/
+    tftp_dirs: 
+      - /var/lib/tftpboot//pxelinux.cfg
+      - /var/lib/tftpboot//boot
+    tftp_servername: "10.80.0.200"
+    dhcp: true
+    dhcp_listen_on: https
+    dhcp_managed: true
+    dhcp_option_domain: 
+      - test.int
+    dhcp_interface: eth1
+    dhcp_gateway: "10.80.0.1"
+    dhcp_range: "10.80.0.20 10.80.0.100"
+    dhcp_nameservers: "10.80.0.200"
+    dhcp_vendor: isc
+    dhcp_config: /etc/dhcp/dhcpd.conf
+    dhcp_leases: /var/lib/dhcp/dhcpd.leases
+    dhcp_key_name: 
+    dhcp_key_secret: 
+    dns: true
+    dns_listen_on: https
+    dns_managed: true
+    dns_provider: nsupdate
+    dns_interface: eth1
+    dns_zone: test.int
+    dns_reverse: "0.80.10.in-addr.arpa"
+    dns_server: "127.0.0.1"
+    dns_ttl: "86400"
+    dns_tsig_keytab: /etc/foreman-proxy/dns.keytab
+    dns_tsig_principal: "foremanproxy/foreman-deb.test.int@TEST.INT"
+    dns_forwarders: 
+      - "192.168.121.1"
+    virsh_network: default
+    bmc: false
+    bmc_listen_on: https
+    bmc_default_provider: ipmitool
+    realm: false
+    realm_listen_on: https
+    realm_provider: freeipa
+    realm_keytab: /etc/foreman-proxy/freeipa.keytab
+    realm_principal: "realm-proxy@EXAMPLE.COM"
+    freeipa_remove_dns: true
+    keyfile: /etc/bind/rndc.key
+    register_in_foreman: true
+    foreman_base_url: "https://foreman-deb.test.int"
+    registered_name: foreman-deb.test.int
+    registered_proxy_url: "https://foreman-deb.test.int:8443"
+    oauth_effective_user: admin
+    oauth_consumer_key: zZWRk26W8Ygh835qnzLrL2H6MSymqBKT
+    oauth_consumer_secret: eF42hMRTnTGfSXRsrjbxyiVyKx7gBjYG
+  puppet: 
+    version: present
+    user: puppet
+    group: puppet
+    dir: /etc/puppet
+    vardir: /var/lib/puppet
+    logdir: /var/log/puppet
+    rundir: /var/run/puppet
+    ssldir: "$vardir/ssl"
+    package_provider: 
+    port: 8140
+    listen: false
+    listen_to: []
+    pluginsync: true
+    splay: false
+    splaylimit: "1800"
+    runinterval: 1800
+    usecacheonfailure: true
+    runmode: service
+    cron_cmd: 
+    agent_noop: false
+    show_diff: false
+    module_repository: 
+    configtimeout: 120
+    ca_server: 
+    ca_port: 
+    prerun_command: 
+    postrun_command: 
+    dns_alt_names: []
+    use_srv_records: false
+    srv_domain: test.int
+    pluginsource: "puppet:///plugins"
+    pluginfactsource: "puppet:///pluginfacts"
+    additional_settings: {}
+    agent_additional_settings: {}
+    classfile: "$vardir/classes.txt"
+    hiera_config: "$confdir/hiera.yaml"
+    main_template: puppet/puppet.conf.erb
+    agent_template: puppet/agent/puppet.conf.erb
+    auth_template: puppet/auth.conf.erb
+    nsauth_template: puppet/namespaceauth.conf.erb
+    allow_any_crl_auth: false
+    auth_allowed: 
+      - "$1"
+    client_package: 
+      - puppet-common
+      - puppet
+    agent: true
+    remove_lock: true
+    puppetmaster: 
+    service_name: puppet
+    syslogfacility: 
+    server: true
+    server_user: puppet
+    server_group: puppet
+    server_dir: /etc/puppet
+    server_port: 8140
+    server_ca: true
+    server_reports: foreman
+    server_implementation: master
+    server_passenger: true
+    server_service_fallback: true
+    server_passenger_max_pool: 12
+    server_httpd_service: httpd
+    server_external_nodes: /etc/puppet/node.rb
+    server_template: puppet/server/puppet.conf.erb
+    server_config_version: 
+    server_git_repo: false
+    server_dynamic_environments: false
+    server_directory_environments: true
+    server_environments: 
+      - development
+      - production
+    server_environments_owner: puppet
+    server_environments_group: 
+    server_environments_mode: "0755"
+    server_envs_dir: /etc/puppet/environments
+    server_manifest_path: /etc/puppet/manifests
+    server_common_modules_path: 
+      - /etc/puppet/environments/common
+      - /etc/puppet/modules
+      - /usr/share/puppet/modules
+    server_git_repo_path: /var/lib/puppet/puppet.git
+    server_git_branch_map: {}
+    server_post_hook_content: puppet/server/post-receive.erb
+    server_post_hook_name: post-receive
+    server_storeconfigs_backend: 
+    server_app_root: /etc/puppet/rack
+    server_ssl_dir: /var/lib/puppet/ssl
+    server_package: 
+    server_certname: foreman-deb.test.int
+    server_enc_api: v2
+    server_report_api: v2
+    server_request_timeout: 60
+    server_ca_proxy: 
+    server_strict_variables: false
+    server_additional_settings: {}
+    server_rack_arguments: []
+    server_foreman: true
+    server_foreman_url: "https://foreman-deb.test.int"
+    server_foreman_ssl_ca: 
+    server_foreman_ssl_cert: 
+    server_foreman_ssl_key: 
+    server_facts: true
+    server_puppet_basedir: 
+    server_puppetdb_host: 
+    server_puppetdb_port: 8081
+    server_puppetdb_swf: false
+    server_parser: current
+  "foreman::cli": 
+    foreman_url: 
+    manage_root_config: true
+    username: 
+    password: 
+    refresh_cache: false
+    request_timeout: 120
+  "foreman::plugin::bootdisk": false
+  "foreman::plugin::chef": false
+  "foreman::plugin::default_hostgroup": false
+  "foreman::plugin::digitalocean": false
+  "foreman::plugin::discovery": 
+    install_images: true
+    tftp_root: /var/lib/tftpboot/
+    source_url: "http://downloads.theforeman.org/discovery/releases/latest/"
+    image_name: fdi-image-latest.tar
+  "foreman::plugin::docker": {}
+  "foreman::plugin::openscap": false
+  "foreman::plugin::ovirt_provision": false
+  "foreman::plugin::tasks": false
+  "foreman::plugin::hooks": false
+  "foreman::plugin::puppetdb": false
+  "foreman::plugin::salt": false
+  "foreman::plugin::setup": {}
+  "foreman::plugin::templates": {}
+  "foreman::compute::ec2": false
+  "foreman::compute::gce": false
+  "foreman::compute::libvirt": false
+  "foreman::compute::openstack": false
+  "foreman::compute::ovirt": false
+  "foreman::compute::rackspace": false
+  "foreman::compute::vmware": false
+  "foreman_proxy::plugin::abrt": false
+  "foreman_proxy::plugin::chef": false
+  "foreman_proxy::plugin::openscap": false
+  "foreman_proxy::plugin::pulp": false
+  "foreman_proxy::plugin::salt": false
+

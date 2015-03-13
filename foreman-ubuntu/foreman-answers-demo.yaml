@@ -52,10 +52,10 @@
     passenger_min_instances: "1"
     passenger_start_timeout: "600"
     admin_username: admin
-    admin_password: nKmqwV6n2UdhSTfx
-    admin_first_name: 
-    admin_last_name: 
-    admin_email: 
+    admin_password: b1systems
+    admin_first_name: Admin
+    admin_last_name:  User
+    admin_email: root@localhost
     initial_organization: 
     initial_location: 
     ipa_authentication: false

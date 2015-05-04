@@ -1,0 +1,13 @@
+---
+classes:
+  - gitlab
+  - jenkins
+gitlab::puppet_manage_config:   true
+gitlab::puppet_manage_backups:  true
+gitlab::puppet_manage_packages: true
+gitlab::gitlab_branch: '7.9.2'
+#gitlab::gitlab_download_link: https://downloads-packages.s3.amazonaws.com/centos-7.1.1503/gitlab-ce-7.10.1~omnibus.2-1.x86_64.rpm
+#gitlab::omnibus_build_ver: '2-1'
+gitlab::gitlab_release: basic
+gitlab::external_url: 'http://%{::clientcert}'
+jenkins::configure_firewall: true

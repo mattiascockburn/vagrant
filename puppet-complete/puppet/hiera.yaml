@@ -1,0 +1,10 @@
+---
+:backends: yaml
+:merge_behavior: deeper
+:yaml:
+    :datadir: /vagrant/puppet/hieradata/
+:hierarchy:
+    - "nodes/%{::clientcert}"
+    - common
+
+:logger: console

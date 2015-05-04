@@ -1,0 +1,6 @@
+classes:
+  - r10k
+  - r10k::mcollective
+  - mcollective::middleware
+  - mcollective::client
+

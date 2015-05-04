@@ -1,0 +1,8 @@
+---
+classes:
+    - mcollective::server
+mcollective::hosts:
+    - 'foreman.puppet.int'
+mcollective::client_password: 'idz5L4AI2dFFn/Q6iiKPk1AEmiOWB/FenjsjyT3LvPg='
+mcollective::server_password: 'AWLK5nLj21+AyzcODxsrZrRgT3emYulxvQCQsKRBRW0='
+mcollective::psk_key: 'Y6Y4RlYFVQVCPKWand2u1Hb85TpYR9YhAsUOJ73mOPs='

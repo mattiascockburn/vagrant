@@ -5,7 +5,7 @@ rpm -Uhv http://mirror.imt-systems.com/epel/7/x86_64/e/epel-release-7-5.noarch.r
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 yum makecache
 #yum -y update
-yum -y install foreman-installer puppet
+yum -y install foreman-installer puppet git
 cp /vagrant/foreman/foreman-installer-answers.yaml /etc/foreman/
 foreman-installer
 gem install --verbose --conservative r10k

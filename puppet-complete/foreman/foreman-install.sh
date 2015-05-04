@@ -18,3 +18,5 @@ cp /vagrant/puppet/hiera.yaml /etc/puppet
 ln -s /etc/puppet/hiera.yaml /etc/
 cp -f /vagrant/puppet/manifests/site.pp /etc/puppet/environments/production/manifests
 service httpd restart
+puppet agent -t -v
+

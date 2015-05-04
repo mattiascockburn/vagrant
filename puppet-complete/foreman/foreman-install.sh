@@ -20,3 +20,5 @@ cp -f /vagrant/puppet/manifests/site.pp /etc/puppet/environments/production/mani
 service httpd restart
 puppet agent -t -v
 
+## HACK HACK HACK Incorrect activemq httpd config which is not used 
+mv /{etc/httpd/conf.d,root}/activemq-httpd.conf

@@ -18,7 +18,12 @@ cp /vagrant/puppet/hiera.yaml /etc/puppet
 ln -s /etc/puppet/hiera.yaml /etc/
 cp -f /vagrant/puppet/manifests/site.pp /etc/puppet/environments/production/manifests
 service httpd restart
+
+# "fix" mcollective agent installation
+mkdir -p /usr/libexec/mcollective/mcollective/{agent,application}
+
 puppet agent -t -v
 
 ## HACK HACK HACK Incorrect activemq httpd config which is not used 
 mv /{etc/httpd/conf.d,root}/activemq-httpd.conf
+

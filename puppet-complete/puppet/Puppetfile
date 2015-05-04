@@ -17,3 +17,5 @@ mod 'puppetlabs/vcsrepo'
 mod 'theforeman/git'
 mod 'spuder/gitlab'
 mod 'jorhett/mcollective'
+mod 'zack/r10k'
+

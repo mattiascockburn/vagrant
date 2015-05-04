@@ -5,9 +5,6 @@ rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
 yum makecache
 yum -y install puppet
 
-# This will be done via puppet
-#yum -y install jenkins
-
 cat <<EOF >/etc/puppet/puppet.conf
 [main]
 server = foreman.puppet.int

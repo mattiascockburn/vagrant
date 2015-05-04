@@ -16,6 +16,15 @@ mod 'ispavailability/file_concat'
 mod 'puppetlabs/vcsrepo'
 mod 'theforeman/git'
 mod 'spuder/gitlab'
-mod 'jorhett/mcollective'
+#mod 'jorhett/mcollective'
 mod 'zack/r10k'
+
+
+# This stuff is needed for zack/r10k
+mod 'puppetlabs/ruby'
+
+#Hacked mcollective module
+mod 'mcollective',
+  :git => 'https://github.com/b1-systems/puppet-mcollective.git',
+  :branch => 'master'
 

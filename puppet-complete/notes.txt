@@ -1,0 +1,2 @@
+mcollective-server packages are not owning /usr/libexec/mcollective/ directory. should create a bug
+for that

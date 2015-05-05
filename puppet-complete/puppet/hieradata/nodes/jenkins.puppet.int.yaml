@@ -12,3 +12,8 @@ gitlab::gitlab_release: basic
 gitlab::external_url: 'http://%{::clientcert}'
 jenkins::configure_firewall: true
 jenkins::params::port: 9090
+jenkins::config_hash:
+  JENKINS_PORT:
+    value: '9090'
+  HTTP_PORT:
+    value: '9090'

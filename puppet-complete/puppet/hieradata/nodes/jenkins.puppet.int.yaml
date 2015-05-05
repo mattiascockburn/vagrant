@@ -10,7 +10,7 @@ gitlab::gitlab_branch: '7.9.2'
 #gitlab::omnibus_build_ver: '2-1'
 gitlab::gitlab_release: basic
 gitlab::external_url: 'http://%{::clientcert}'
-jenkins::configure_firewall: true
+jenkins::configure_firewall: false
 jenkins::params::port: 9090
 jenkins::config_hash:
   JENKINS_PORT:

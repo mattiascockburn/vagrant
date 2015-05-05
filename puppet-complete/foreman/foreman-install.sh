@@ -26,4 +26,4 @@ puppet agent -t -v
 
 ## HACK HACK HACK Incorrect activemq httpd config which is not used 
 mv /{etc/httpd/conf.d,root}/activemq-httpd.conf
-
+exit 0

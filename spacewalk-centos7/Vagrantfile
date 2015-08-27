@@ -6,89 +6,66 @@ VAGRANT_ROOT = File.dirname(File.expand_path(__FILE__))
 second_hdd = File.join(VAGRANT_ROOT, 'spacewalk-data.vdi')
 # size in GB
 second_hdd_size = 100
-# memory for spacewalk server in MB
-spacewalk_mem = 3192
-# the os spacewalk will be deployed on
-# only centos is supported atm
-spacewalk_os = 'centos'
+DOMAIN='b1.test'
+
+spacewalk = {
+    :basebox  => 'boxcutter/centos71',
+    :ip       => '10.5.5.100',
+    :mem      => 3192,
+    :hostname => 'spacewalk',
+    :os       => 'centos',
+    :hdd_file => second_hdd,
+    :hdd_size => second_hdd_size
+}
+clients = {
+  :slesclient => {
+    :basebox  => 'sles12',
+    :ip       => '10.5.5.201',
+    :mem      => 512,
+    :hostname => 'sles12',
+    :os       => 'sles'
+  },
+
+  :centosclient => {
+    :basebox  => 'boxcutter/centos71',
+    :ip       => '10.5.5.202',
+    :mem      => 512,
+    :hostname => 'centos71',
+    :os       => 'centos'
+  }
+}
 
 
-
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure(2) do |config|
-  # The most common configuration options are documented and commented below.
-  # For a complete reference, please see the online documentation at
-  # https://docs.vagrantup.com.
+  config.vm.define "spacewalk", primary: true do |sw|
+    sw.vm.box = spacewalk[:basebox]
+    sw.vm.hostname = "#{spacewalk[:hostname]}.#{DOMAIN}"
+    sw.vm.network "forwarded_port", guest: 80, host: 9080
+    sw.vm.network "forwarded_port", guest: 443, host: 9443
 
-  # Every Vagrant development environment requires a box. You can search for
-  # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "boxcutter/centos71"
-  config.vm.hostname = 'spacewalk.b1.test'
+    sw.vm.network "private_network", ip: spacewalk[:ip]
 
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network "forwarded_port", guest: 80, host: 9080
-  config.vm.network "forwarded_port", guest: 443, host: 9443
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: "10.5.5.100"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-    vb.memory = spacewalk_mem
-    unless File.exist?(second_hdd)
-      vb.customize ['createhd', '--filename', second_hdd, '--size', second_hdd_size * 1024]
+    sw.vm.provider "virtualbox" do |vb|
+      vb.memory = spacewalk[:mem]
+      unless File.exist?(spacewalk[:hdd_file])
+        vb.customize ['createhd', '--filename', spacewalk[:hdd_file], '--size', spacewalk[:hdd_size] * 1024]
+      end
+      vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', spacewalk[:hdd_file]]
     end
-    vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', second_hdd]
+    sw.vm.provision "shell", path: 'scripts/common/2nd-hdd-init.sh'
+    sw.vm.provision "shell", path: "scripts/#{spacewalk[:os]}/spacewalk-install.sh"
+    sw.vm.provision "shell", path: 'scripts/common/spacewalk-sw.sh' 
   end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
 
-  # Define a Vagrant Push strategy for pushing to Atlas. Other push strategies
-  # such as FTP and Heroku are also available. See the documentation at
-  # https://docs.vagrantup.com/v2/push/atlas.html for more information.
-  # config.push.define "atlas" do |push|
-  #   push.app = "YOUR_ATLAS_USERNAME/YOUR_APPLICATION_NAME"
-  # end
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   sudo apt-get update
-  #   sudo apt-get install -y apache2
-  # SHELL
-  config.vm.provision "shell", path: 'scripts/common/2nd-hdd-init.sh'
-  config.vm.provision "shell", path: "scripts/#{spacewalk_os}/spacewalk-install.sh"
-  config.vm.provision "shell", path: 'scripts/common/spacewalk-config.sh' 
-
+  clients.each do |node_name, node_config|
+    config.vm.define node_name, autostart: false do |node|
+      node.vm.hostname = "#{node_config[:hostname]}.#{DOMAIN}"
+      node.vm.box = node_config[:basebox]
+      node.vm.network "private_network", ip: node_config[:ip]
+      node.vm.provider "virtualbox" do |vb|
+        vb.memory = node_config[:mem]
+      end
+      node.vm.provision "shell", path: "scripts/#{node_config[:os]}/client-bootstrap.sh"
+    end
+  end
 end

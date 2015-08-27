@@ -1,5 +1,4 @@
 #!/bin/bash
-echo "Spacewalk Server Client bootstrap script v4.0"
 
 # can be edited, but probably correct (unless created during initial install):
 # NOTE: ACTIVATION_KEYS *must* be used to bootstrap a client machine.
@@ -29,6 +28,13 @@ ALLOW_CONFIG_ACTIONS=1
 ALLOW_REMOTE_COMMANDS=1
 
 FULLY_UPDATE_THIS_BOX=0
+
+declare -A bootstrap_repo
+bootstrap_repo[sles12]='sles12-spacewalk23-client-x86_64'
+bootstrap_repo[centos7]='centos7-spacewalk23-client-x86_64'
+
+# try to bootstrap the client 
+
 
 # Set if you want to specify profilename for client systems.
 # NOTE: Make sure it's set correctly if any external command is used.
@@ -82,6 +88,28 @@ if [ -x /usr/bin/zypper ] ; then
 elif [ -x /usr/bin/yum ] ; then
     INSTALLER=yum
 fi
+
+echo Trying to install essential bootstrap packages
+
+# We expect that base repositories are already active
+[ "$INSTALLER" = 'zypper' ] && {
+  zypper ar ${bootstrap_repo["$DISTRO"]} ${HTTP_PUB_DIRECTORY}/repos/${bootstrap_repo["$DISTRO"]}
+  zypper --no-gpg-checks ref -f
+  zypper --no-gpg-checks -n in rhn-client-tools rhn-setup zypp-plugin-spacewalk rhn-check
+}
+
+[ "$INSTALLER" = 'yum' ] && {
+cat <<EOF >/etc/yum.repos.d/sw-bootstrap.repo
+[spacewalk-client]
+name=Spacewalk Client packages
+baseurl=${HTTP_PUB_DIRECTORY}/repos/${bootstrap_repo["$DISTRO"]}
+enabled=1
+gpgcheck=0
+EOF
+yum makecache
+yum -y install rhn-setup rhn-client-tools
+}
+
 echo
 echo "UPDATING RHN_REGISTER/UP2DATE CONFIGURATION FILES"
 echo "-------------------------------------------------"

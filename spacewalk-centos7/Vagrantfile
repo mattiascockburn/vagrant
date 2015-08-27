@@ -54,7 +54,7 @@ Vagrant.configure(2) do |config|
     end
     sw.vm.provision "shell", path: 'scripts/common/2nd-hdd-init.sh'
     sw.vm.provision "shell", path: "scripts/#{spacewalk[:os]}/spacewalk-install.sh"
-    sw.vm.provision "shell", path: 'scripts/common/spacewalk-sw.sh' 
+    sw.vm.provision "shell", path: 'scripts/common/spacewalk-config.sh' 
   end
 
   clients.each do |node_name, node_config|

@@ -1,0 +1,67 @@
+#!/usr/bin/env python
+## purpose: Hardlink all packages from a channel to a target dir. 
+## copyright: B1 Systems GmbH <info@b1-systems.de>, 2014.
+## license: GPLv3+, http://www.gnu.org/licenses/gpl-3.0.html
+## author: Mattias Giese <giese@b1-systems.de>, 2014.
+## version: 0.1: first prototype with minimal functionality
+
+import argparse
+import os
+import sys
+import xmlrpclib
+import b1_spacewalk_lib
+import subprocess
+
+sw = b1_spacewalk_lib.swauth()
+client = sw.client
+key = sw.key
+
+# just testing ;)
+#channel='rhel-x86_64-server-6'
+noop=False
+
+if len(sys.argv) < 2:
+	print """Usage: %s channel [ noop ]
+channel: The channel label i should export
+noop: Dry-Run
+""" % sys.argv[0]
+	sys.exit(1)
+
+channel=sys.argv[1]
+if len(sys.argv) > 2 and sys.argv[2] == 'noop':
+	noop = True
+
+export_target='/var/www/html/pub/repos/' + channel
+basedir='/var/satellite'
+
+print 'Satellite base:',basedir
+print 'Export target:', export_target
+
+if not os.path.exists(export_target):
+	print 'Export target',export_target,'does not exists. Creating it now'
+	if not noop:
+		try:
+			os.makedirs(export_target)
+		except OSError, e:
+			print 'Error creating directory, exiting.',e
+			sys.exit(1)
+
+for package in client.channel.software.listLatestPackages(key,channel):
+	pkg_path=client.packages.getDetails(key,package['id'])['path']
+	target=basedir + '/' + pkg_path	
+	pkg=os.path.basename(target)
+	target_link=export_target + '/' + pkg
+	if noop:
+		print 'ln', target, target_link
+	else:
+		try:
+			if not os.path.exists(target_link):
+				subprocess.call(['/bin/ln','-s',target,target_link])	
+				print 'Processed package',pkg 
+			else:
+				print 'Skipping',pkg,'because it already exists in',export_target
+			
+		except CalledProcessError, e:
+			print 'Linking',target_link,'to',target,'failed! Exception:',e
+			sys.exit(1)
+

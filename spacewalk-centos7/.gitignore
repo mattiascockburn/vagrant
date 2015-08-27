@@ -2,3 +2,5 @@
 *~
 .vagrant
 spacewalk-data.vdi
+*.pyc
+*.pyo

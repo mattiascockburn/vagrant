@@ -1,5 +1,18 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+#
+# This will create the data hdd in the Vagrant Root. Adjust this if needed
+VAGRANT_ROOT = File.dirname(File.expand_path(__FILE__))
+second_hdd = File.join(VAGRANT_ROOT, 'spacewalk-data.vdi')
+# size in GB
+second_hdd_size = 100
+# memory for spacewalk server in MB
+spacewalk_mem = 3192
+# the os spacewalk will be deployed on
+# only centos is supported atm
+spacewalk_os = 'centos'
+
+
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -50,7 +63,11 @@ Vagrant.configure(2) do |config|
   #   vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
-    vb.memory = "3192"
+    vb.memory = spacewalk_mem
+    unless File.exist?(second_hdd)
+      vb.customize ['createhd', '--filename', second_hdd, '--size', second_hdd_size * 1024]
+    end
+    vb.customize ['storageattach', :id, '--storagectl', 'SATA Controller', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', second_hdd]
   end
   #
   # View the documentation for the provider you are using for more
@@ -70,7 +87,8 @@ Vagrant.configure(2) do |config|
   #   sudo apt-get update
   #   sudo apt-get install -y apache2
   # SHELL
-  config.vm.provision "shell", path: 'scripts/centos/spacewalk-install.sh' 
+  config.vm.provision "shell", path: 'scripts/common/2nd-hdd-init.sh'
+  config.vm.provision "shell", path: "scripts/#{spacewalk_os}/spacewalk-install.sh"
   config.vm.provision "shell", path: 'scripts/common/spacewalk-config.sh' 
 
 end

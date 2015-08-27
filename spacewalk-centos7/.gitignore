@@ -1,3 +1,4 @@
 *.swp
 *~
 .vagrant
+spacewalk-data.vdi

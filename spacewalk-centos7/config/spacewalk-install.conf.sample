@@ -1,0 +1,14 @@
+# Use a local mirror for spacewalk installation?
+MIRROR=1
+
+# This are all necessary repositories for spacewalk install
+# If you set MIRROR=1, make sure that these repos are available
+# to your Spacewalk VM
+# It does not matter how you name them, the install script
+# simply iterates over the array
+declare -A SWREPOS
+SWREPOS[base]=http://10.2.2.254:9090/repos/centos7/base/
+SWREPOS[epel]=http://10.2.2.254:9090/repos/centos7/epel/
+SWREPOS[updates]=http://10.2.2.254:9090/repos/centos7/updates/
+SWREPOS[jpackage]=http://10.2.2.254:9090/repos/centos7/jpackage5/
+SWREPOS[spacewalk]=http://10.2.2.254:9090/repos/centos7/spacewalk23/

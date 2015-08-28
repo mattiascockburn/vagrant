@@ -4,3 +4,4 @@
 spacewalk-data.vdi
 *.pyc
 *.pyo
+config/spacewalk-install.conf

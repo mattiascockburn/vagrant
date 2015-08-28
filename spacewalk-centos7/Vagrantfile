@@ -11,6 +11,7 @@ DOMAIN='b1.test'
 spacewalk = {
     :basebox  => 'boxcutter/centos71',
     :ip       => '10.5.5.100',
+    :vcpu     => 4,
     :mem      => 3192,
     :hostname => 'spacewalk',
     :os       => 'centos',
@@ -47,6 +48,7 @@ Vagrant.configure(2) do |config|
 
     sw.vm.provider "virtualbox" do |vb|
       vb.memory = spacewalk[:mem]
+      vb.cpus   = spacewalk[:vcpu]
       unless File.exist?(spacewalk[:hdd_file])
         vb.customize ['createhd', '--filename', spacewalk[:hdd_file], '--size', spacewalk[:hdd_size] * 1024]
       end

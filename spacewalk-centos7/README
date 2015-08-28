@@ -1,1 +1,14 @@
 PXE Box stolen from https://github.com/npwalker/pe-razor-vagrant-stack
+
+Step 0)
+cp config/spacewalk-install.conf{.sample,}
+Adjust to your liking.
+
+Step 1)
+vagrant up
+
+Step 2)
+Create admin user. If you are lazy and don't want to adjust anything then use admin as username and
+spacewalk as password
+
+

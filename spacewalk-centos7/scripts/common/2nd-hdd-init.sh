@@ -1,5 +1,10 @@
 #!/bin/bash
-DEVICE=/dev/sdb
+if [ -b /dev/sdb ]; then
+	DEVICE=/dev/sdb
+else
+	DEVICE=/dev/vdb
+fi
+
 MOUNTPOINT=/var/satellite
 
 [[ ! -e ${DEVICE}1 ]] && {
